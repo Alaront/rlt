@@ -3,7 +3,7 @@
     <span class="inventory-sidebar__close" @click="emit('closeSidebar')"></span>
 
     <div class="inventory-sidebar__photo">
-      <img :src="photoCover" alt="cover">
+      <img :src="`src/assets/images/${inventoryItem.img}`" alt="item">
     </div>
 
     <div class="inventory-sidebar__info">
@@ -30,12 +30,14 @@
 </template>
 
 <script setup lang="ts">
-  import photoCover from './../assets/images/item-green.png'
   import UiSkeleton from "./UI/UiSkeleton.vue";
-  import {ref} from "vue";
+  import {ref, computed} from "vue";
+  import { useInventoryStore } from '@/stores/inventory';
+  const inventoryStore = useInventoryStore();
 
   interface Props {
-    isShowSidebar: boolean
+    isShowSidebar: boolean,
+    currentItem: number | null
   }
 
   const showMenuDell = ref<boolean>(false)
@@ -51,15 +53,25 @@
   }
 
   const dellItems = () => {
-    if(Number(dellCount.value)) {
-      console.log('DEL: ', dellCount.value)
+    if(Number(dellCount.value) && props.currentItem !== null) {
+      inventoryStore.dellQuantity(props.currentItem, Number(dellCount.value))
       errorInput.value = false;
+      dellCount.value = null;
     } else {
+      console.log('props.currentItem', props.currentItem)
+      console.log('props.currentItem', dellCount.value)
       errorInput.value = true;
     }
   }
 
-  defineProps<Props>()
+  const props = defineProps<Props>()
+
+  const inventoryItem = computed(() => {
+    if(props.currentItem === null) return {}
+    return inventoryStore.items.find(item => item.id === props.currentItem);
+  });
+
+
   const emit = defineEmits<{
     (e: 'closeSidebar'): void
   }>()

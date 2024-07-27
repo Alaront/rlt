@@ -1,20 +1,33 @@
 <template>
-  <div class="inventory-content-item">
+  <div class="inventory-content-item" v-if="inventoryItem" @click="emit('showSidebar', inventoryItem.id)">
     <div class="inventory-content-item__photo">
-      <img src="../assets/images/item-green.png" alt="item">
+      <img :src="`src/assets/images/${inventoryItem.img}`" alt="item">
     </div>
     <span class="inventory-content-item__count">
-      {{index}}
+      {{inventoryItem.quantity}}
     </span>
   </div>
 </template>
 
 <script setup lang="ts">
+  import {computed, ref} from 'vue';
+  import { useInventoryStore } from '@/stores/inventory';
+  const inventoryStore = useInventoryStore();
+
   interface Props {
-    index: number
+    indexPosition: number
   }
 
-  defineProps<Props>()
+  const props = defineProps<Props>()
+
+  const inventoryItem = computed(() => {
+      return inventoryStore.items.find(item => item.position === props.indexPosition);
+  });
+
+  const emit = defineEmits<{
+    (e: 'showSidebar', itemId: number): void
+  }>()
+
 </script>
 
 <style scoped lang="scss">

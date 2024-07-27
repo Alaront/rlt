@@ -1,15 +1,12 @@
 <template>
   <div class="inventory-content">
     <div class="inventory-content__table">
-      <table>
-        <tr v-for="(row, rowIndex) in 5" :key="rowIndex">
-          <td v-for="(column, columnIndex) in 5" :key="columnIndex" :data-item="(rowIndex + 1) * (columnIndex + 1)" @click="showSidebar">
-            <InventoryContentItem :index="(row * column)"  />
-          </td>
-        </tr>
-      </table>
+      <div v-for="item in 25" class="inventory-content__table-item" :key="item">
+        <InventoryContentItem :indexPosition="item - 1" @show-sidebar="showSidebar" />
+      </div>
     </div>
-    <InventorySidebar :isShowSidebar="isShowSidebar" @close-sidebar="closeSidebar"/>
+
+    <InventorySidebar :isShowSidebar="isShowSidebar" :currentItem="currentItem" @close-sidebar="closeSidebar"/>
   </div>
 </template>
 
@@ -20,12 +17,14 @@
   import {ref} from "vue";
 
   const isShowSidebar = ref<boolean>(false)
+  const currentItem = ref<number | null>(null)
 
   const closeSidebar = ():void => {
     isShowSidebar.value = false;
   }
 
-  const showSidebar = () => {
+  const showSidebar = (idItem:number) => {
+    currentItem.value = idItem;
     isShowSidebar.value = true;
   }
 </script>
@@ -36,31 +35,23 @@
   .inventory-content {
     position: relative;
     border: 1px solid $border-color;
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
+    flex: 1;
   }
 
   .inventory-content__table {
-    width: 100%;
     height: 100%;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
   }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    overflow: hidden;
-  }
-
-  td {
-    width: 105px;
-    height: 100px;
-    border: 1px solid $border-color;
+  .inventory-content__table-item {
+    border-left: 1px solid $border-color;
+    border-top: 1px solid $border-color;
     text-align: center;
-
-    &[data-item="1"] {
-      border-top-left-radius: 12px;
-    }
+    min-height: 100px;
   }
 
 </style>
