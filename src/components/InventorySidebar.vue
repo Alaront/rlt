@@ -3,7 +3,7 @@
     <span class="inventory-sidebar__close" @click="emit('closeSidebar')"></span>
 
     <div class="inventory-sidebar__photo">
-      <img :src="`src/assets/images/${inventoryItem?.img}`" alt="item">
+      <span :data-photo="inventoryItem?.img"></span>
     </div>
 
     <div class="inventory-sidebar__info">
@@ -95,6 +95,10 @@
     &.show {
       transform: translateX(0);
     }
+
+    .white & {
+      background: $white-bg-color;
+    }
   }
 
   .inventory-sidebar__close {
@@ -110,13 +114,32 @@
 
   .inventory-sidebar__photo {
     width: 130px;
+    height: 160px;
     margin: 0 auto;
     padding-bottom: 30px;
 
-    img {
+    span[data-photo='item-blue.png'] {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      background: url("../assets/images/item-blue.png") no-repeat center;
+      background-size: contain;
+      display: block;
+    }
+
+    span[data-photo='item-green.png'] {
+      width: 100%;
+      height: 100%;
+      background: url("../assets/images/item-green.png") no-repeat center;
+      background-size: contain;
+      display: block;
+    }
+
+    span[data-photo='item-yellow.png'] {
+      width: 100%;
+      height: 100%;
+      background: url("../assets/images/item-yellow.png") no-repeat center;
+      background-size: contain;
+      display: block;
     }
   }
 
@@ -158,6 +181,10 @@
 
     &.show {
       transform: none;
+    }
+
+    .white & {
+      background: $white-bg-color;
     }
 
     input {

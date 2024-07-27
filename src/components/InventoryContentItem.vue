@@ -1,7 +1,7 @@
 <template>
   <div class="inventory-content-item" v-if="inventoryItem" @click="emit('showSidebar', inventoryItem.id)">
     <div class="inventory-content-item__photo">
-      <img :src="`src/assets/images/${inventoryItem.img}`" alt="item">
+      <span :data-photo="inventoryItem.img"></span>
     </div>
     <span class="inventory-content-item__count">
       {{inventoryItem.quantity}}
@@ -49,10 +49,28 @@
     width: 54px;
     height: 54px;
 
-    img {
+    span[data-photo='item-blue.png'] {
       width: 100%;
       height: 100%;
+      background: url("../assets/images/item-blue.png") no-repeat center;
       background-size: contain;
+      display: block;
+    }
+
+    span[data-photo='item-green.png'] {
+      width: 100%;
+      height: 100%;
+      background: url("../assets/images/item-green.png") no-repeat center;
+      background-size: contain;
+      display: block;
+    }
+
+    span[data-photo='item-yellow.png'] {
+      width: 100%;
+      height: 100%;
+      background: url("../assets/images/item-yellow.png") no-repeat center;
+      background-size: contain;
+      display: block;
     }
   }
 
@@ -72,5 +90,9 @@
     border-top-left-radius: 6px;
     text-align: center;
     background: $bg-color;
+
+    .white & {
+      background: $white-bg-color;
+    }
   }
 </style>
