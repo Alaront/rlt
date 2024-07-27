@@ -3,7 +3,7 @@
     <span class="inventory-sidebar__close" @click="emit('closeSidebar')"></span>
 
     <div class="inventory-sidebar__photo">
-      <img :src="`src/assets/images/${inventoryItem.img}`" alt="item">
+      <img :src="`src/assets/images/${inventoryItem?.img}`" alt="item">
     </div>
 
     <div class="inventory-sidebar__info">
@@ -67,7 +67,7 @@
   const props = defineProps<Props>()
 
   const inventoryItem = computed(() => {
-    if(props.currentItem === null) return {}
+    if(props.currentItem === null) return {img: '', position: 0, quantity: 0, id: 0}
     return inventoryStore.items.find(item => item.id === props.currentItem);
   });
 

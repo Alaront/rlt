@@ -12,9 +12,18 @@
   import InventoryFooter from "@/components/InventoryFooter.vue";
 
   import {useInventoryStore} from "./stores/inventory";
+  import {watch} from "vue";
 
   const inventoryStore = useInventoryStore()
   const items = inventoryStore.items
+
+  watch(
+      useInventoryStore,
+      (newStore) => {
+        localStorage.setItem('inventory', JSON.stringify(newStore.items));
+      },
+      { deep: true }
+  );
 </script>
 
 <style scoped lang="scss">
