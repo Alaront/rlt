@@ -3,6 +3,7 @@ import type {InventoryInfo} from "@/type/InventoryItem";
 import { watch } from 'vue';
 
 interface Store {
+  currentItem: number | null
   items: InventoryInfo[]
 }
 
@@ -34,6 +35,7 @@ function defaultData():InventoryInfo[] {
 export const useInventoryStore = defineStore('inventory', {
   state: (): Store => {
     return {
+      currentItem: null,
       items: defaultData()
     }
   },
@@ -41,6 +43,14 @@ export const useInventoryStore = defineStore('inventory', {
     dellQuantity(itemId: number, quantity: number) {
       const index = this.items.findIndex(item => item.id === itemId)
       this.items[index].quantity = this.items[index].quantity - quantity;
+
+      if(this.items[index].quantity === 0) {
+        this.items.splice(index, 1)
+        this.currentItem = null;
+      }
+    },
+    setCurrentItem(itemId:number | null) {
+      this.currentItem = itemId;
     }
   }
 })

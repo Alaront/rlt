@@ -1,9 +1,9 @@
 <template>
-  <div class="inventory-sidebar" :class="{show: isShowSidebar}">
-    <span class="inventory-sidebar__close" @click="emit('closeSidebar')"></span>
+  <div class="inventory-sidebar" :class="{show: currentItem}">
+    <span class="inventory-sidebar__close" @click="closeSidebar"></span>
 
     <div class="inventory-sidebar__photo">
-      <span :data-photo="inventoryItem?.img"></span>
+      <span :data-photo="currentItem?.img"></span>
     </div>
 
     <div class="inventory-sidebar__info">
@@ -36,8 +36,7 @@
   const inventoryStore = useInventoryStore();
 
   interface Props {
-    isShowSidebar: boolean,
-    currentItem: number | null
+
   }
 
   const showMenuDell = ref<boolean>(false)
@@ -53,28 +52,27 @@
   }
 
   const dellItems = () => {
-    if(Number(dellCount.value) && props.currentItem !== null) {
-      inventoryStore.dellQuantity(props.currentItem, Number(dellCount.value))
+    if(Number(dellCount.value) && currentItem.value && currentItem.value.quantity >= Number(dellCount.value)) {
+      inventoryStore.dellQuantity(currentItem.value.id, Number(dellCount.value))
       errorInput.value = false;
       dellCount.value = null;
     } else {
-      console.log('props.currentItem', props.currentItem)
-      console.log('props.currentItem', dellCount.value)
+      console.log('props.currentItem', inventoryStore.currentItem)
+      console.log('props.inventoryStore.currentItem', dellCount.value)
       errorInput.value = true;
     }
   }
 
   const props = defineProps<Props>()
 
-  const inventoryItem = computed(() => {
-    if(props.currentItem === null) return {img: '', position: 0, quantity: 0, id: 0}
-    return inventoryStore.items.find(item => item.id === props.currentItem);
-  });
 
+  const currentItem = computed(() => {
+    return inventoryStore.items.find(item => item.id === inventoryStore.currentItem)
+  })
 
-  const emit = defineEmits<{
-    (e: 'closeSidebar'): void
-  }>()
+  const closeSidebar = ():void => {
+    inventoryStore.setCurrentItem(null)
+  }
 </script>
 
 <style scoped lang="scss">

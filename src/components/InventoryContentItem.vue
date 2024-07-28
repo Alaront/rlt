@@ -1,5 +1,5 @@
 <template>
-  <div class="inventory-content-item" v-if="inventoryItem" @click="emit('showSidebar', inventoryItem.id)">
+  <div class="inventory-content-item" v-if="inventoryItem" @click="newCurrentItem">
     <div class="inventory-content-item__photo">
       <span :data-photo="inventoryItem.img"></span>
     </div>
@@ -24,9 +24,9 @@
       return inventoryStore.items.find(item => item.position === props.indexPosition);
   });
 
-  const emit = defineEmits<{
-    (e: 'showSidebar', itemId: number): void
-  }>()
+  const newCurrentItem = () => {
+    if(inventoryItem.value && Number(inventoryItem.value?.id) >= 0) inventoryStore.setCurrentItem(inventoryItem.value.id)
+  }
 
 </script>
 

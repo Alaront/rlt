@@ -2,11 +2,11 @@
   <div class="inventory-content">
     <div class="inventory-content__table">
       <div v-for="item in 25" class="inventory-content__table-item" :key="item">
-        <InventoryContentItem :indexPosition="item - 1" @show-sidebar="showSidebar" />
+        <InventoryContentItem :indexPosition="item - 1" />
       </div>
     </div>
 
-    <InventorySidebar :isShowSidebar="isShowSidebar" :currentItem="currentItem" @close-sidebar="closeSidebar"/>
+    <InventorySidebar/>
   </div>
 </template>
 
@@ -14,19 +14,6 @@
 
   import InventoryContentItem from "@/components/InventoryContentItem.vue";
   import InventorySidebar from "@/components/InventorySidebar.vue";
-  import {ref} from "vue";
-
-  const isShowSidebar = ref<boolean>(false)
-  const currentItem = ref<number | null>(null)
-
-  const closeSidebar = ():void => {
-    isShowSidebar.value = false;
-  }
-
-  const showSidebar = (idItem:number) => {
-    currentItem.value = idItem;
-    isShowSidebar.value = true;
-  }
 </script>
 
 <style scoped lang="scss">
