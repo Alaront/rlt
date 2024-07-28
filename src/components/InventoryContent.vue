@@ -1,7 +1,7 @@
 <template>
   <div class="inventory-content">
     <div class="inventory-content__table">
-      <div v-for="item in 25" class="inventory-content__table-item" :key="item">
+      <div v-for="item in 25" class="inventory-content__table-item" :key="item" @drop="onDrop($event, item - 1)" @dragenter.prevent @dragover.prevent>
         <InventoryContentItem :indexPosition="item - 1" />
       </div>
     </div>
@@ -14,6 +14,21 @@
 
   import InventoryContentItem from "@/components/InventoryContentItem.vue";
   import InventorySidebar from "@/components/InventorySidebar.vue";
+
+  import { useInventoryStore } from '@/stores/inventory';
+  const inventoryStore = useInventoryStore();
+
+  const onDrop = (event:DragEvent, position:number) => {
+    if(event.dataTransfer) {
+      const itemId = event.dataTransfer.getData('itemID');
+      const item = inventoryStore.items.find((item) => item.id === Number(itemId));
+      if (item) {
+        item.position = position;
+      }
+    }
+  }
+
+
 </script>
 
 <style scoped lang="scss">
@@ -39,6 +54,12 @@
     border-top: 1px solid $border-color;
     text-align: center;
     min-height: 100px;
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      background: $border-color;
+    }
   }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="inventory-content-item" v-if="inventoryItem" @click="newCurrentItem">
+  <div class="inventory-content-item" v-if="inventoryItem" @click="newCurrentItem" draggable="true" @dragstart="startDrag($event, indexPosition)">
     <div class="inventory-content-item__photo">
       <span :data-photo="inventoryItem.img"></span>
     </div>
@@ -26,6 +26,14 @@
 
   const newCurrentItem = () => {
     if(inventoryItem.value && Number(inventoryItem.value?.id) >= 0) inventoryStore.setCurrentItem(inventoryItem.value.id)
+  }
+
+  const startDrag = (event:DragEvent, item:number) => {
+    if(inventoryItem.value?.id && event.dataTransfer) {
+      event.dataTransfer.dropEffect = 'move'
+      event.dataTransfer.effectAllowed = 'move'
+      event.dataTransfer.setData('itemID', String(inventoryItem.value.id))
+    }
   }
 
 </script>
