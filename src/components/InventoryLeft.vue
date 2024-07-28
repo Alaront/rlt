@@ -19,7 +19,6 @@
 
 import photo from '../assets/images/persons.png'
 import UiSkeleton from "@/components/UI/UiSkeleton.vue";
-import InventorySidebar from "@/components/InventorySidebar.vue";
 
 </script>
 

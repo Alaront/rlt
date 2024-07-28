@@ -1,5 +1,5 @@
 <template>
-  <div class="inventory-content-item" v-if="inventoryItem" @click="newCurrentItem" draggable="true" @dragstart="startDrag($event, indexPosition)">
+  <div class="inventory-content-item" v-if="inventoryItem" @click="newCurrentItem" draggable="true" @dragstart="startDrag($event)">
     <div class="inventory-content-item__photo">
       <span :data-photo="inventoryItem.img"></span>
     </div>
@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-  import {computed, ref} from 'vue';
+  import {computed} from 'vue';
   import { useInventoryStore } from '@/stores/inventory';
   const inventoryStore = useInventoryStore();
 
@@ -28,7 +28,7 @@
     if(inventoryItem.value && Number(inventoryItem.value?.id) >= 0) inventoryStore.setCurrentItem(inventoryItem.value.id)
   }
 
-  const startDrag = (event:DragEvent, item:number) => {
+  const startDrag = (event:DragEvent) => {
     if(inventoryItem.value?.id && event.dataTransfer) {
       event.dataTransfer.dropEffect = 'move'
       event.dataTransfer.effectAllowed = 'move'

@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import type {InventoryInfo} from "@/type/InventoryItem";
-import { watch } from 'vue';
 
 interface Store {
   currentItem: number | null

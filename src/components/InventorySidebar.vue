@@ -35,10 +35,6 @@
   import { useInventoryStore } from '@/stores/inventory';
   const inventoryStore = useInventoryStore();
 
-  interface Props {
-
-  }
-
   const showMenuDell = ref<boolean>(false)
   const dellCount = ref<number | null>(null)
   const errorInput = ref<boolean>(false)
@@ -62,8 +58,6 @@
       errorInput.value = true;
     }
   }
-
-  const props = defineProps<Props>()
 
 
   const currentItem = computed(() => {

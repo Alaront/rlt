@@ -16,8 +16,6 @@
   import {watch} from "vue";
   import UiTheme from "@/components/UI/UiTheme.vue";
 
-  const inventoryStore = useInventoryStore()
-  const items = inventoryStore.items
 
   watch(
       useInventoryStore,
